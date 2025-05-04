@@ -97,12 +97,12 @@ function App() {
           <input value={footer} onChange={(e) => setFooter(e.target.value)} />
         </div>
         <div className="input-group">
-          <label>批量输入10条新闻和简评：</label>
+          <label>新闻内容：</label>
           <textarea
             value={rawInput}
             onChange={(e) => setRawInput(e.target.value)}
             rows={18}
-            placeholder={"请按格式输入10条新闻和简评..."}
+            placeholder={"请按格式输入新闻内容..."}
           />
         </div>
         <button className="export-btn" onClick={exportAllCards}>
