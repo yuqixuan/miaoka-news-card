@@ -25,12 +25,17 @@ function parseNewsAndComment(raw) {
   return { newsList, comment };
 }
 
-// 高亮数字的函数
-function highlightNumbers(text) {
-  // 匹配整数、小数、百分比等
-  return text.replace(
-    /(\d+[\d,.]*%?)/g,
-    '<span class="highlight-number">$1</span>'
+// 高亮数字的函数，返回 React 片段
+function renderWithHighlight(text) {
+  const parts = text.split(/(\d+[\d,.]*%?)/g);
+  return parts.map((part, idx) =>
+    /^\d+[\d,.]*%?$/.test(part) ? (
+      <span key={idx} className="highlight-number">
+        {part}
+      </span>
+    ) : (
+      part
+    )
   );
 }
 
@@ -41,6 +46,14 @@ function getTomorrowDateStr() {
   const m = tomorrow.getMonth() + 1;
   const d = tomorrow.getDate();
   return `${y}年${m}月${d}日`;
+}
+
+// 只将括号内包含“来源”二字的内容（中英文括号均可）单独放到下一行，并用英文括号包裹
+function splitParenthesesToNewLine(text) {
+  // 匹配 (来源...) 或 （来源...）
+  return text
+    .replace(/\(([^)]*来源[^)]*)\)/g, "\n($1)")
+    .replace(/（([^）]*来源[^）]*)）/g, "\n($1)");
 }
 
 function App() {
@@ -132,12 +145,11 @@ function App() {
               <span>{date}</span>
             </div>
             <div className="card-title">{item.title}</div>
-            <div
-              className="card-content"
-              dangerouslySetInnerHTML={{
-                __html: highlightNumbers(item.content),
-              }}
-            ></div>
+            <div className="card-content">
+              {renderWithHighlight(splitParenthesesToNewLine(item.content)).map(
+                (part, idx) => (part === "\n" ? <br key={idx} /> : part)
+              )}
+            </div>
           </div>
         ))}
         {comment && (
@@ -149,10 +161,11 @@ function App() {
               <span>{date}</span>
             </div>
             <div className="card-title">简评</div>
-            <div
-              className="card-content"
-              dangerouslySetInnerHTML={{ __html: highlightNumbers(comment) }}
-            ></div>
+            <div className="card-content">
+              {renderWithHighlight(splitParenthesesToNewLine(comment)).map(
+                (part, idx) => (part === "\n" ? <br key={idx} /> : part)
+              )}
+            </div>
           </div>
         )}
       </div>
