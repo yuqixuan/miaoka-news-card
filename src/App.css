@@ -99,12 +99,14 @@
   width: 100%;
 }
 .card-preview {
-  width: 330px;
-  height: 440px;
+  max-width: 330px;
+  min-width: 330px;
+  max-height: 440px;
+  min-height: 440px;
   background: #fff;
   border-radius: 18px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18), 0 1.5px 6px rgba(0, 0, 0, 0.1);
-  padding: 36px 24px 64px 24px;
+  padding: 48px;
   position: relative;
   font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
   display: flex;

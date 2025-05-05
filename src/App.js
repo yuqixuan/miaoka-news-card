@@ -34,11 +34,20 @@ function highlightNumbers(text) {
   );
 }
 
+function getTomorrowDateStr() {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const y = tomorrow.getFullYear();
+  const m = tomorrow.getMonth() + 1;
+  const d = tomorrow.getDate();
+  return `${y}年${m}月${d}日`;
+}
+
 function App() {
   const [rawInput, setRawInput] = useState(
     `1. 新闻标题一\n内容一内容一内容一\n\n2. 新闻标题二\n内容二内容二内容二\n\n3. 新闻标题三\n内容三内容三内容三\n\n4. 新闻标题四\n内容四内容四内容四\n\n5. 新闻标题五\n内容五内容五内容五\n\n6. 新闻标题六\n内容六内容六内容六\n\n7. 新闻标题七\n内容七内容七内容七\n\n8. 新闻标题八\n内容八内容八内容八\n\n9. 新闻标题九\n内容九内容九内容九\n\n10. 新闻标题十\n内容十内容十内容十\n\n简评：这里是简评内容`
   );
-  const [date, setDate] = useState("2025年5月4日");
+  const [date, setDate] = useState(getTomorrowDateStr());
   const [footer, setFooter] = useState("今日信息差");
   const cardRefs = useRef([]);
 
